@@ -3,6 +3,7 @@ package com.myapp.socialnetwork.socialnetwork.service;
 import com.myapp.socialnetwork.socialnetwork.DAO.UserMapper;
 import com.myapp.socialnetwork.socialnetwork.entity.User;
 import com.myapp.socialnetwork.socialnetwork.util.MailClient;
+import com.myapp.socialnetwork.socialnetwork.util.SocialnetworkConstant;
 import com.myapp.socialnetwork.socialnetwork.util.SocialnetworkUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,7 @@ import java.util.Map;
 import java.util.Random;
 
 @Service
-public class UserService {
+public class UserService implements SocialnetworkConstant {
 
     @Autowired
     private UserMapper userMapper;
@@ -90,5 +91,17 @@ public class UserService {
         mailClient.sendMail(user.getEmail(), "activation account", content);
 
         return map;
+    }
+    public int activation(int userId, String code){
+        User user = userMapper.selectById(userId);
+        if(user.getStatus()==1){
+            return ACTIVATION_REPEAT;
+        }
+        else if(user.getActivationCode().equals(code)) {
+            userMapper.updateStatus(userId,1);
+            return ACTIVATION_SUCCESS;
+        } else{
+            return ACTIVATION_FAILURE;
+        }
     }
 }
