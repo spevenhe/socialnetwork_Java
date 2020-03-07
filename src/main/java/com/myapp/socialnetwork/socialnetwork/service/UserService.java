@@ -117,7 +117,7 @@ public class UserService implements SocialnetworkConstant {
             map.put("usernameMsg","账号不能为空");
             return map;
         }
-        if(StringUtils.isAllBlank(password)){
+        if(StringUtils.isBlank(password)){
             map.put("passwordMsg","密码不能为空");
             return map;
         }
@@ -154,4 +154,13 @@ public class UserService implements SocialnetworkConstant {
     public void logout(String ticket) {
         loginTicketMapper.updateStatus(ticket,1);
     }
+
+    public LoginTicket findLoginTicket(String ticket) {
+        return loginTicketMapper.selectByTicket(ticket);
+    }
+
+    public int updateHeader(int userId, String headerUrl) {
+        return userMapper.updateHeader(userId, headerUrl);
+    }
+
 }

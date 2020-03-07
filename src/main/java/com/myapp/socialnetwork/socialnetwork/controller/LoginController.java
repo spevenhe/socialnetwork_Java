@@ -37,7 +37,7 @@ public class LoginController implements SocialnetworkConstant {
     @Autowired
     private Producer kaptchaProducer;
 
-    @Value("${server.servlet.context-path)")
+    @Value("${server.servlet.context-path}")
     private String contextPath;
 
     @RequestMapping(path = "/register", method = RequestMethod.GET)
